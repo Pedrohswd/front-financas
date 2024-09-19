@@ -1,0 +1,32 @@
+<form [formGroup]="metaForm" (ngSubmit)="onSubmit()">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="tipo">Tipo</label>
+        <p-dropdown id="tipo" [options]="tipos" formControlName="tipo" optionLabel="label" optionValue="value"></p-dropdown>
+      </div>
+  
+      <div class="p-field">
+        <label for="valorObjetivo">Valor Objetivo</label>
+        <p-inputNumber id="valorObjetivo" formControlName="valorObjetivo" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
+      </div>
+  
+      <div class="p-field">
+        <label for="valorAtual">Valor Atual</label>
+        <p-inputNumber id="valorAtual" formControlName="valorAtual" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
+      </div>
+  
+      <div class="p-field">
+        <label for="grupo">Grupo</label>
+        <p-dropdown id="grupo" [options]="grupos" formControlName="grupo" optionLabel="nome" optionValue="id"></p-dropdown>
+      </div>
+  
+      <div class="p-field">
+        <label for="categoria">Categoria</label>
+        <p-dropdown id="categoria" [options]="categorias" formControlName="categoria" optionLabel="label" optionValue="value"></p-dropdown>
+      </div>
+  
+      <div class="p-field">
+        <p-button type="submit" label="Salvar" [disabled]="metaForm.invalid"></p-button>
+      </div>
+    </div>
+  </form>

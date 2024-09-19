@@ -1,0 +1,27 @@
+<form [formGroup]="pessoaForm" (ngSubmit)="onSubmit()">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="nome">Nome</label>
+        <input id="nome" type="text" pInputText formControlName="nome" />
+      </div>
+  
+      <div class="p-field">
+        <label for="cpf">CPF</label>
+        <p-inputMask id="cpf" mask="999.999.999-99" formControlName="cpf"></p-inputMask>
+      </div>
+  
+      <div class="p-field">
+        <label for="email">E-mail</label>
+        <input id="email" type="email" pInputText formControlName="email" />
+      </div>
+  
+      <div class="p-field">
+        <label for="telefone">Telefone</label>
+        <p-inputMask id="telefone" mask="(99) 99999-9999" formControlName="telefone"></p-inputMask>
+      </div>
+  
+      <div class="p-field">
+        <p-button type="submit" label="Salvar" [disabled]="pessoaForm.invalid"></p-button>
+      </div>
+    </div>
+  </form>

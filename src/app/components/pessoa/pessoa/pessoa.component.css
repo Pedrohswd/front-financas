@@ -1,0 +1,41 @@
+:host {
+    display: block;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .p-fluid {
+    margin-bottom: 20px;
+  }
+  
+  .p-field {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  input, p-inputMask {
+    width: 100%;
+  }
+  
+  .p-error {
+    color: #f44336;
+    font-size: 0.875rem;
+    margin-top: 5px;
+    display: block;
+  }
+  
+  :host ::ng-deep .p-button {
+    width: 100%;
+  }
+  
+  @media screen and (max-width: 640px) {
+    :host {
+      padding: 10px;
+    }
+  }
