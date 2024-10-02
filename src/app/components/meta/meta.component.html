@@ -1,32 +1,50 @@
-<form [formGroup]="metaForm" (ngSubmit)="onSubmit()">
-    <div class="p-fluid">
-      <div class="p-field">
-        <label for="tipo">Tipo</label>
-        <p-dropdown id="tipo" [options]="tipos" formControlName="tipo" optionLabel="label" optionValue="value"></p-dropdown>
-      </div>
-  
-      <div class="p-field">
-        <label for="valorObjetivo">Valor Objetivo</label>
-        <p-inputNumber id="valorObjetivo" formControlName="valorObjetivo" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
-      </div>
-  
-      <div class="p-field">
-        <label for="valorAtual">Valor Atual</label>
-        <p-inputNumber id="valorAtual" formControlName="valorAtual" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
-      </div>
-  
-      <div class="p-field">
-        <label for="grupo">Grupo</label>
-        <p-dropdown id="grupo" [options]="grupos" formControlName="grupo" optionLabel="nome" optionValue="id"></p-dropdown>
-      </div>
-  
-      <div class="p-field">
-        <label for="categoria">Categoria</label>
-        <p-dropdown id="categoria" [options]="categorias" formControlName="categoria" optionLabel="label" optionValue="value"></p-dropdown>
-      </div>
-  
-      <div class="p-field">
-        <p-button type="submit" label="Salvar" [disabled]="metaForm.invalid"></p-button>
-      </div>
+<div>
+  <h2>Gerenciar Metas</h2>
+  <form [formGroup]="metaForm" (ngSubmit)="editingMeta ? updateMeta() : addMeta()">
+    <div class="p-field">
+      <label for="tipo">Tipo</label>
+      <input id="tipo" pInputText formControlName="tipo" required />
     </div>
+    <div class="p-field">
+      <label for="valorObjetivo">Valor Objetivo</label>
+      <input id="valorObjetivo" type="number" pInputText formControlName="valorObjetivo" required />
+    </div>
+    <div class="p-field">
+      <label for="valorAtual">Valor Atual</label>
+      <input id="valorAtual" type="number" pInputText formControlName="valorAtual" required />
+    </div>
+    <div class="p-field">
+      <label for="categoria">Categoria</label>
+      <input id="categoria" pInputText formControlName="categoria" required />
+    </div>
+    <div class="p-field">
+      <label for="grupo">Grupo</label>
+      <p-dropdown [options]="grupos" formControlName="grupo" optionLabel="nome" placeholder="Selecione um grupo" required></p-dropdown>
+    </div>
+    <button pButton type="submit" label="{{ editingMeta ? 'Atualizar Meta' : 'Adicionar Meta' }}"></button>
   </form>
+
+  <p-table [value]="metas">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Tipo</th>
+        <th>Valor Objetivo</th>
+        <th>Valor Atual</th>
+        <th>Categoria</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-meta>
+      <tr>
+        <td>{{ meta.tipo }}</td>
+        <td>{{ meta.valorObjetivo }}</td>
+        <td>{{ meta.valorAtual }}</td>
+        <td>{{ meta.categoria }}</td>
+        <td>
+          <button pButton icon="pi pi-pencil" (click)="editMeta(meta)" label="Editar"></button>
+          <button pButton icon="pi pi-trash" (click)="deleteMeta(meta.id)" label="Deletar"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

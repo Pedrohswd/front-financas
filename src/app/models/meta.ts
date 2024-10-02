@@ -1,21 +1,19 @@
-import { Tipo } from '../enums/tipo.enum';
-import { Categoria } from '../enums/categoria.enum';
-import { Grupo } from './grupo.model';
+import { Grupo } from "./grupo";
 
 export class Meta {
   id?: number;
-  tipo: Tipo;
+  tipo: string;
   valorObjetivo: number;
   valorAtual: number;
   grupo: Grupo;
-  categoria: Categoria;
+  categoria: string;
 
   constructor(
-    tipo: Tipo,
+    tipo: string,
     valorObjetivo: number,
     valorAtual: number,
     grupo: Grupo,
-    categoria: Categoria,
+    categoria: string,
     id?: number
   ) {
     this.id = id;

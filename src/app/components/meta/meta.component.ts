@@ -1,65 +1,94 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { MetaService } from '../../services/meta.service';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Meta } from '../../models/meta';
+import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
+import { Grupo } from '../../models/grupo';
 
 @Component({
   selector: 'app-meta',
   templateUrl: './meta.component.html',
-  styleUrls: ['./meta.component.css']
+  styleUrls: ['./meta.component.css'],
+  imports: [
+    ReactiveFormsModule,
+    TableModule,
+    InputTextModule,
+    ButtonModule,
+    DropdownModule,
+  ],
+  standalone: true,
 })
 export class MetaComponent implements OnInit {
+  metas: Meta[] = [];
   metaForm: FormGroup;
-  tipos: any[];
-  categorias: any[];
-  grupos: Grupo[];
+  editingMeta: Meta | null = null;
+  grupos: Grupo[] = [];
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private metaService: MetaService,
-    private grupoService: GrupoService,
-    private messageService: MessageService
-  ) { 
-    this.metaForm = this.formBuilder.group({
+  constructor(private metaService: MetaService, private fb: FormBuilder) {
+    this.metaForm = this.fb.group({
       tipo: ['', Validators.required],
-      valorObjetivo: ['', [Validators.required, Validators.min(0)]],
-      valorAtual: ['', [Validators.required, Validators.min(0)]],
-      grupo: ['', Validators.required],
-      categoria: ['', Validators.required]
+      valorObjetivo: [0, [Validators.required, Validators.min(0)]],
+      valorAtual: [0, [Validators.required, Validators.min(0)]],
+      categoria: ['', Validators.required],
+      grupo: [null, Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.loadEnums();
-    this.loadGrupos();
+    this.loadMetas();
   }
 
-  loadEnums(): void {
-    this.tipos = Object.keys(Tipo).map(key => ({ label: key, value: Tipo[key] }));
-    this.categorias = Object.keys(Categoria).map(key => ({ label: key, value: Categoria[key] }));
+  loadMetas(): void {
+    this.metaService.readAll().subscribe(metas => {
+      this.metas = metas;
+    });
   }
 
-  loadGrupos(): void {
-    this.grupoService.getGrupos().subscribe(
-      grupos => this.grupos = grupos,
-      error => this.messageService.add({severity:'error', summary: 'Erro', detail: 'Erro ao carregar grupos'})
-    );
-  }
-
-  onSubmit(): void {
+  addMeta(): void {
     if (this.metaForm.valid) {
-      const meta = this.metaForm.value;
-      this.metaService.createMeta(meta).subscribe(
-        response => {
-          this.messageService.add({severity:'success', summary: 'Sucesso', detail: 'Meta criada com sucesso!'});
-          this.metaForm.reset();
-        },
-        error => {
-          this.messageService.add({severity:'error', summary: 'Erro', detail: 'Erro ao criar meta'});
-        }
-      );
-    } else {
-      this.messageService.add({severity:'warn', summary: 'Atenção', detail: 'Por favor, preencha todos os campos corretamente.'});
+      this.metaService.create(this.metaForm.value).subscribe(() => {
+        this.resetForm();
+        this.loadMetas();
+      });
     }
+  }
+
+  editMeta(meta: Meta): void {
+    this.editingMeta = { ...meta };
+    this.metaForm.patchValue(meta);
+  }
+
+  updateMeta(): void {
+    if (this.editingMeta && this.metaForm.valid) {
+      const id = this.editingMeta.id;
+      if (id !== undefined) {
+        this.metaService.update(id, this.metaForm.value).subscribe(() => {
+          this.resetForm();
+          this.loadMetas();
+          this.editingMeta = null;
+        });
+      } else {
+        console.error('ID da meta não definido.');
+      }
+    }
+  }
+
+  deleteMeta(id: number): void {
+    this.metaService.delete(id).subscribe(() => {
+      this.loadMetas();
+    });
+  }
+
+  resetForm(): void {
+    this.metaForm.reset();
+    this.editingMeta = null;
   }
 }

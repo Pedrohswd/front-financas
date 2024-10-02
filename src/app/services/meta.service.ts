@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
+import { Meta } from '../models/meta';
 
 @Injectable({
   providedIn: 'root'
@@ -11,23 +11,19 @@ export class MetaService {
 
   constructor(private http: HttpClient) { }
 
-  getMetas(): Observable<Meta[]> {
-    return this.http.get<Meta[]>(this.apiUrl);
-  }
-
-  getMeta(id: number): Observable<Meta> {
-    return this.http.get<Meta>(`${this.apiUrl}/${id}`);
-  }
-
-  createMeta(meta: Meta): Observable<Meta> {
+  create(meta: Meta): Observable<Meta> {
     return this.http.post<Meta>(this.apiUrl, meta);
   }
 
-  updateMeta(id: number, meta: Meta): Observable<Meta> {
-    return this.http.put<Meta>(`${this.apiUrl}/${id}`, meta);
+  readAll(): Observable<Meta[]> {
+    return this.http.get<Meta[]>(this.apiUrl);
   }
 
-  deleteMeta(id: number): Observable<void> {
+  update(id: number, updatedMeta: Meta): Observable<Meta> {
+    return this.http.put<Meta>(`${this.apiUrl}/${id}`, updatedMeta);
+  }
+
+  delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
