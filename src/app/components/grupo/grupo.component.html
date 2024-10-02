@@ -1,1 +1,40 @@
-<p>grupo works!</p>
+<div>
+    <h2>Gerenciar Grupos</h2>
+    <form [formGroup]="grupoForm" (ngSubmit)="editingGrupo ? updateGrupo() : addGrupo()">
+      <div class="p-field">
+        <label for="nome">Nome</label>
+        <input id="nome" pInputText formControlName="nome" required />
+      </div>
+      <div class="p-field">
+        <label for="descricao">Descrição</label>
+        <input id="descricao" pInputText formControlName="descricao" />
+      </div>
+      <div class="p-field">
+        <label for="isSaldoNegativo">Saldo Negativo</label>
+        <p-checkbox formControlName="isSaldoNegativo" binary="true"></p-checkbox>
+      </div>
+      <button pButton type="submit" label="{{ editingGrupo ? 'Atualizar Grupo' : 'Adicionar Grupo' }}"></button>
+    </form>
+  
+    <p-table [value]="grupos">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th>Saldo Negativo</th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-grupo>
+        <tr>
+          <td>{{ grupo.nome }}</td>
+          <td>{{ grupo.descricao }}</td>
+          <td>{{ grupo.isSaldoNegativo ? 'Sim' : 'Não' }}</td>
+          <td>
+            <button pButton icon="pi pi-pencil" (click)="editGrupo(grupo)" label="Editar"></button>
+            <button pButton icon="pi pi-trash" (click)="deleteGrupo(grupo.id)" label="Deletar"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
