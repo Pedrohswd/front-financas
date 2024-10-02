@@ -1,1 +1,64 @@
-<p>lancamento works!</p>
+<div>
+    <h2>Gerenciar Lançamentos</h2>
+    <form [formGroup]="lancamentoForm" (ngSubmit)="editingLancamento ? updateLancamento() : addLancamento()">
+      <div class="p-field">
+        <label for="nome">Nome</label>
+        <input id="nome" pInputText formControlName="nome" required />
+      </div>
+      <div class="p-field">
+        <label for="descricao">Descrição</label>
+        <input id="descricao" pInputText formControlName="descricao" />
+      </div>
+      <div class="p-field">
+        <label for="data">Data</label>
+        <input id="data" type="date" pInputText formControlName="data" required />
+      </div>
+      <div class="p-field">
+        <label for="tipo">Tipo</label>
+        <input id="tipo" pInputText formControlName="tipo" required />
+      </div>
+      <div class="p-field">
+        <label for="valor">Valor</label>
+        <input id="valor" type="number" pInputText formControlName="valor" required />
+      </div>
+      <div class="p-field">
+        <label for="categoria">Categoria</label>
+        <input id="categoria" pInputText formControlName="categoria" required />
+      </div>
+      <div class="p-field">
+        <label for="grupo">Grupo</label>
+        <p-dropdown [options]="grupos" formControlName="grupo" optionLabel="nome" placeholder="Selecione um grupo" required></p-dropdown>
+      </div>
+      <button pButton type="submit" label="{{ editingLancamento ? 'Atualizar Lançamento' : 'Adicionar Lançamento' }}"></button>
+    </form>
+  
+    <p-table [value]="lancamentos">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th>Data</th>
+          <th>Tipo</th>
+          <th>Valor</th>
+          <th>Categoria</th>
+          <th>Grupo</th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-lancamento>
+        <tr>
+          <td>{{ lancamento.nome }}</td>
+          <td>{{ lancamento.descricao }}</td>
+          <td>{{ lancamento.data }}</td>
+          <td>{{ lancamento.tipo }}</td>
+          <td>{{ lancamento.valor }}</td>
+          <td>{{ lancamento.categoria }}</td>
+          <td>{{ lancamento.grupo.nome }}</td>
+          <td>
+            <button pButton icon="pi pi-pencil" (click)="editLancamento(lancamento)" label="Editar"></button>
+            <button pButton icon="pi pi-trash" (click)="deleteLancamento(lancamento.id)" label="Deletar"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
