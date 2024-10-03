@@ -32,6 +32,20 @@ export class LancamentoComponent {
   lancamentoForm: FormGroup;
   editingLancamento: Lancamento | null = null; // Para edição
   grupos: Grupo[] = []; // Para selecionar o grupo
+  categorias = [
+    'ALIMENTACAO',
+    'EDUCACAO',
+    'TRANSPORTE',
+    'SAUDE',
+    'LAZER',
+    'MORADIA',
+    'VESTUARIO',
+    'OUTROS'
+  ];
+  tipos = [
+    'DESPESA',
+    'RECEITA'
+  ]; 
 
   constructor(
     private lancamentoService: LancamentoService,

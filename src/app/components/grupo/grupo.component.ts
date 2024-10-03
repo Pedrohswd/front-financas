@@ -62,7 +62,7 @@ export class GrupoComponent {
     if (this.editingGrupo && this.grupoForm.valid) {
       const id = this.editingGrupo.id;
       if (id !== undefined) {
-        this.grupoService.update(id, this.grupoForm.value).subscribe(() => {
+        this.grupoService.update(this.grupoForm.value).subscribe(() => {
           this.resetForm();
           this.loadGrupos();
           this.editingGrupo = null;

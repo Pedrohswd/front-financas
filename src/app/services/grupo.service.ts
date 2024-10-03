@@ -12,15 +12,15 @@ export class GrupoService {
   constructor(private http: HttpClient) { }
 
   create(grupo: Grupo): Observable<Grupo> {
-    return this.http.post<Grupo>(this.apiUrl, grupo);
+    return this.http.post<Grupo>(this.apiUrl + '/criar', grupo);
   }
 
   readAll(): Observable<Grupo[]> {
     return this.http.get<Grupo[]>(this.apiUrl);
   }
 
-  update(id: number, updatedGrupo: Grupo): Observable<Grupo> {
-    return this.http.put<Grupo>(`${this.apiUrl}/${id}`, updatedGrupo);
+  update(updatedGrupo: Grupo): Observable<Grupo> {
+    return this.http.put<Grupo>(`${this.apiUrl}/salvar`, updatedGrupo);
   }
 
   delete(id: number): Observable<void> {

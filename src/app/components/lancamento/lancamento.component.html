@@ -15,7 +15,12 @@
       </div>
       <div class="p-field">
         <label for="tipo">Tipo</label>
-        <input id="tipo" pInputText formControlName="tipo" required />
+        <p-dropdown 
+          [options]="tipos" 
+          formControlName="tipo" 
+          placeholder="Selecione um tipo" 
+          required>
+        </p-dropdown>
       </div>
       <div class="p-field">
         <label for="valor">Valor</label>
@@ -23,7 +28,12 @@
       </div>
       <div class="p-field">
         <label for="categoria">Categoria</label>
-        <input id="categoria" pInputText formControlName="categoria" required />
+        <p-dropdown 
+          [options]="categorias" 
+          formControlName="categoria" 
+          placeholder="Selecione uma categoria" 
+          required>
+        </p-dropdown>
       </div>
       <div class="p-field">
         <label for="grupo">Grupo</label>

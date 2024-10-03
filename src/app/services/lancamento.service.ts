@@ -12,18 +12,18 @@ export class LancamentoService {
   constructor(private http: HttpClient) { }
 
   create(lancamento: Lancamento): Observable<Lancamento> {
-    return this.http.post<Lancamento>(this.apiUrl, lancamento);
+    return this.http.post<Lancamento>(this.apiUrl + '/criar', lancamento);
   }
 
   readAll(): Observable<Lancamento[]> {
-    return this.http.get<Lancamento[]>(this.apiUrl);
+    return this.http.get<Lancamento[]>(this.apiUrl + '/listar');
   }
 
   update(id: number, updatedLancamento: Lancamento): Observable<Lancamento> {
-    return this.http.put<Lancamento>(`${this.apiUrl}/${id}`, updatedLancamento);
+    return this.http.put<Lancamento>(`${this.apiUrl}/atualizar/${id}`, updatedLancamento);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/deletar/${id}`);
   }
 }
