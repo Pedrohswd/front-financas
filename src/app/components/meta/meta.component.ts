@@ -12,6 +12,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { Grupo } from '../../models/grupo';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-meta',
@@ -23,6 +25,7 @@ import { Grupo } from '../../models/grupo';
     InputTextModule,
     ButtonModule,
     DropdownModule,
+    ToastModule
   ],
   standalone: true,
 })
@@ -31,7 +34,11 @@ export class MetaComponent implements OnInit {
   metaForm: FormGroup;
   editingMeta: Meta | null = null;
 
-  constructor(private metaService: MetaService, private fb: FormBuilder) {
+  constructor(
+    private metaService: MetaService,
+    private fb: FormBuilder,
+    private messageService: MessageService // Injetando o MessageService
+  ) {
     this.metaForm = this.fb.group({
       id: [null],
       descricao: ['', Validators.required],
@@ -45,17 +52,28 @@ export class MetaComponent implements OnInit {
   }
 
   loadMetas(): void {
-    this.metaService.readAll().subscribe(metas => {
-      this.metas = metas;
-    });
+    this.metaService.readAll().subscribe(
+      (metas) => {
+        this.metas = metas;
+      },
+      (error) => {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao carregar metas.' });
+      }
+    );
   }
 
   addMeta(): void {
     if (this.metaForm.valid) {
-      this.metaService.create(this.metaForm.value).subscribe(() => {
-        this.resetForm();
-        this.loadMetas();
-      });
+      this.metaService.create(this.metaForm.value).subscribe(
+        () => {
+          this.loadMetas(); // Atualiza a lista após adicionar
+          this.resetForm(); // Reseta o formulário
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Meta adicionada com sucesso.' });
+        },
+        (error) => {
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao adicionar meta.' });
+        }
+      );
     }
   }
 
@@ -68,21 +86,33 @@ export class MetaComponent implements OnInit {
     if (this.editingMeta && this.metaForm.valid) {
       const id = this.editingMeta.id;
       if (id !== undefined) {
-        this.metaService.update(this.metaForm.value).subscribe(() => {
-          this.resetForm();
-          this.loadMetas();
-          this.editingMeta = null;
-        });
+        this.metaService.update(this.metaForm.value).subscribe(
+          () => {
+            this.loadMetas(); // Atualiza a lista após a edição
+            this.resetForm(); // Reseta o formulário
+            this.editingMeta = null; // Reseta o estado de edição
+            this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Meta atualizada com sucesso.' });
+          },
+          (error) => {
+            this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao atualizar meta.' });
+          }
+        );
       } else {
-        console.error('ID da meta não definido.');
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'ID da meta não definido.' });
       }
     }
   }
 
   deleteMeta(id: number): void {
-    this.metaService.delete(id).subscribe(() => {
-      this.loadMetas();
-    });
+    this.metaService.delete(id).subscribe(
+      () => {
+        this.loadMetas(); // Atualiza a lista após a exclusão
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Meta excluída com sucesso.' });
+      },
+      (error) => {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao excluir meta.' });
+      }
+    );
   }
 
   resetForm(): void {

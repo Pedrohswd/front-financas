@@ -1,9 +1,43 @@
+<p-toast></p-toast>
 <div>
   <h2>Consulta de Lançamentos</h2>
   <div class="filters">
-    <p-dropdown [options]="categorias" [(ngModel)]="selectedCategoria" (onChange)="filterLancamentos()" placeholder="Filtrar por Categoria"></p-dropdown>
-    <p-dropdown [options]="tipos" [(ngModel)]="selectedTipo" (onChange)="filterLancamentos()" placeholder="Filtrar por Tipo"></p-dropdown>
-    <p-dropdown [options]="grupos" [(ngModel)]="selectedGrupo" optionLabel="nome" (onChange)="filterLancamentos()" placeholder="Filtrar por Grupo"></p-dropdown>
+    <p-dropdown
+      [options]="categorias"
+      [(ngModel)]="selectedCategoria"
+      (onChange)="filterLancamentos()"
+      placeholder="Filtrar por Categoria"
+    ></p-dropdown>
+    <p-dropdown
+      [options]="tipos"
+      [(ngModel)]="selectedTipo"
+      (onChange)="filterLancamentos()"
+      placeholder="Filtrar por Tipo"
+    ></p-dropdown>
+    <p-dropdown
+      [options]="grupos"
+      [(ngModel)]="selectedGrupo"
+      optionLabel="nome"
+      (onChange)="filterLancamentos()"
+      placeholder="Filtrar por Grupo"
+    ></p-dropdown>
+
+    <div>
+      <label>Data de Início:</label>
+      <p-calendar
+        [(ngModel)]="startDate"
+        (onSelect)="filterLancamentos()"
+        dateFormat="mm/dd/yy"
+      ></p-calendar>
+    </div>
+    <div>
+      <label>Data de Fim:</label>
+      <p-calendar
+        [(ngModel)]="endDate"
+        (onSelect)="filterLancamentos()"
+        dateFormat="mm/dd/yy"
+      ></p-calendar>
+    </div>
   </div>
 
   <p-table [value]="filteredLancamentos">
@@ -24,16 +58,19 @@
         <td>{{ lancamento.descricao }}</td>
         <td>{{ lancamento.data }}</td>
         <td>{{ lancamento.tipo }}</td>
-        <td>{{ lancamento.valor }}</td>
+        <td> R$ {{ lancamento.valor }}</td>
         <td>{{ lancamento.categoria }}</td>
         <td>{{ lancamento.grupo.nome }}</td>
       </tr>
     </ng-template>
     <ng-template pTemplate="footer">
-      <tr>
-        <td colspan="4"><strong>Meta:</strong> {{ meta }}</td>
-        <td colspan="3"><strong>Somatório:</strong> {{ calcularSomatorio() }}</td>
-      </tr>
+      <h3>Somatório por Categoria</h3>
+      <div *ngFor="let categoria of categorias">
+        <div *ngIf="calcularSomatorioPorCategoria()[categoria] !== undefined">
+          <strong>{{ categoria }}:</strong>
+          R$ {{ calcularSomatorioPorCategoria()[categoria] }}
+        </div>
+      </div>
     </ng-template>
   </p-table>
 </div>
