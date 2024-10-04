@@ -36,7 +36,7 @@
         <td>{{ grupo.nome }}</td>
         <td>{{ grupo.descricao }}</td>
         <td>{{ grupo.isSaldoNegativo ? 'Sim' : 'Não' }}</td>
-        <td>{{ grupo.meta?.descricao }}</td> <!-- Exibe o tipo da meta vinculada -->
+        <td>{{ grupo.metas?.descricao }}</td> <!-- Exibe o tipo da meta vinculada -->
         <td>{{ grupo.pessoa?.nome }}</td> <!-- Exibe o tipo da meta vinculada -->
         <td>
           <button pButton icon="pi pi-pencil" (click)="editGrupo(grupo)" label="Editar"></button>
