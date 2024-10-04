@@ -30,15 +30,13 @@ export class MetaComponent implements OnInit {
   metas: Meta[] = [];
   metaForm: FormGroup;
   editingMeta: Meta | null = null;
-  grupos: Grupo[] = [];
 
   constructor(private metaService: MetaService, private fb: FormBuilder) {
     this.metaForm = this.fb.group({
-      tipo: ['', Validators.required],
+      id: [null],
+      descricao: ['', Validators.required],
       valorObjetivo: [0, [Validators.required, Validators.min(0)]],
-      valorAtual: [0, [Validators.required, Validators.min(0)]],
-      categoria: ['', Validators.required],
-      grupo: [null, Validators.required]
+      valorAtual: [0, [Validators.required, Validators.min(0)]]
     });
   }
 
@@ -70,7 +68,7 @@ export class MetaComponent implements OnInit {
     if (this.editingMeta && this.metaForm.valid) {
       const id = this.editingMeta.id;
       if (id !== undefined) {
-        this.metaService.update(id, this.metaForm.value).subscribe(() => {
+        this.metaService.update(this.metaForm.value).subscribe(() => {
           this.resetForm();
           this.loadMetas();
           this.editingMeta = null;

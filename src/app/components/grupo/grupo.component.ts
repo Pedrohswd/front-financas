@@ -1,12 +1,16 @@
+import { PessoaService } from './../../services/pessoa.service';
+import { MetaService } from './../../services/meta.service';
 import { Component } from '@angular/core';
 import { Grupo } from '../../models/grupo';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GrupoService } from '../../services/grupo.service';
-import { BrowserModule } from '@angular/platform-browser';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
+import { Meta } from '../../models/meta';
+import { DropdownModule } from 'primeng/dropdown';
+import { Pessoa } from '../../models/pessoa';
 
 @Component({
   selector: 'app-grupo',
@@ -15,7 +19,8 @@ import { CheckboxModule } from 'primeng/checkbox';
     TableModule,
     InputTextModule,
     ButtonModule,
-    CheckboxModule],
+    CheckboxModule,
+    DropdownModule],
   templateUrl: './grupo.component.html',
   styleUrl: './grupo.component.css'
 })
@@ -23,24 +28,43 @@ export class GrupoComponent {
   grupos: Grupo[] = [];
   grupoForm: FormGroup;
   editingGrupo: Grupo | null = null; // Para edição
+  metas: Meta[] = []; // Lista de meta
+  pessoas: Pessoa[] = []; // Lista de metas
 
-  constructor(private grupoService: GrupoService, private fb: FormBuilder) {
+  constructor(private grupoService: GrupoService, private metaService: MetaService,private fb: FormBuilder,
+    private pessoaService: PessoaService
+  ) {
     this.grupoForm = this.fb.group({
+      id: [null],
       nome: ['', Validators.required],
       descricao: [''],
       isSaldoNegativo: [false],
-      pessoas: [[]], // Inicializa como um array vazio
-      metas: [[]] // Inicializa como um array vazio
+      pessoa: [null, Validators.required], // Inicializa como um array vazio
+      meta: [null, Validators.required] // Inicializa como um array vazio
     });
   }
 
   ngOnInit(): void {
     this.loadGrupos();
+    this.loadMetas();
+    this.loadPessoas();
+  }
+
+  loadMetas() {
+    this.metaService.readAll().subscribe(metas => {
+      this.metas = metas;
+    });
   }
 
   loadGrupos(): void {
     this.grupoService.readAll().subscribe(grupos => {
       this.grupos = grupos;
+    });
+  }
+
+  loadPessoas(): void {
+    this.pessoaService.getPessoas().subscribe(pessoas => {
+      this.pessoas = pessoas;
     });
   }
 

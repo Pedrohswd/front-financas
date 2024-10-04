@@ -1,27 +1,52 @@
-<form [formGroup]="pessoaForm" (ngSubmit)="onSubmit()">
-    <div class="p-fluid">
-      <div class="p-field">
-        <label for="nome">Nome</label>
-        <input id="nome" type="text" pInputText formControlName="nome" />
-      </div>
-  
-      <div class="p-field">
-        <label for="cpf">CPF</label>
-        <p-inputMask id="cpf" mask="999.999.999-99" formControlName="cpf"></p-inputMask>
-      </div>
-  
-      <div class="p-field">
-        <label for="email">E-mail</label>
-        <input id="email" type="email" pInputText formControlName="email" />
-      </div>
-  
-      <div class="p-field">
-        <label for="telefone">Telefone</label>
-        <p-inputMask id="telefone" mask="(99) 99999-9999" formControlName="telefone"></p-inputMask>
-      </div>
-  
-      <div class="p-field">
-        <p-button type="submit" label="Salvar" [disabled]="pessoaForm.invalid"></p-button>
-      </div>
+<div class="p-fluid">
+  <h2 class="p-mb-3">Gerenciar Pessoas</h2>
+  <form [formGroup]="pessoaForm" (ngSubmit)="editingPessoa ? updatePessoa() : addPessoa()" class="p-shadow-2 p-p-3 p-mb-4">
+    <div class="p-field">
+      <label for="nome">Nome</label>
+      <input id="nome" type="text" pInputText formControlName="nome" required />
+    </div>
+
+    <div class="p-field">
+      <label for="cpf">CPF</label>
+      <p-inputMask id="cpf" mask="999.999.999-99" formControlName="cpf"></p-inputMask>
+    </div>
+
+    <div class="p-field">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" pInputText formControlName="email" required />
+    </div>
+
+    <div class="p-field">
+      <label for="telefone">Telefone</label>
+      <p-inputMask id="telefone" mask="(99) 99999-9999" formControlName="telefone"></p-inputMask>
+    </div>
+
+    <div class="p-field">
+      <p-button type="submit" label="{{ editingPessoa ? 'Atualizar Pessoa' : 'Adicionar Pessoa' }}" [disabled]="pessoaForm.invalid" class="p-button-success"></p-button>
     </div>
   </form>
+
+  <p-table [value]="pessoas" class="p-shadow-2">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>E-mail</th>
+        <th>Telefone</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-pessoa>
+      <tr>
+        <td>{{ pessoa.nome }}</td>
+        <td>{{ pessoa.cpf }}</td>
+        <td>{{ pessoa.email }}</td>
+        <td>{{ pessoa.telefone }}</td>
+        <td>
+          <button pButton icon="pi pi-pencil" (click)="editPessoa(pessoa)" label="Editar" class="p-button-warning"></button>
+          <button pButton icon="pi pi-trash" (click)="deletePessoa(pessoa.id)" label="Deletar" class="p-button-danger"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

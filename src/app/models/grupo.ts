@@ -5,7 +5,7 @@ export interface Grupo {
   id?: number;
   nome: string;
   descricao?: string;
-  pessoas?: Pessoa[];
+  pessoas?: Pessoa;
   isSaldoNegativo?: boolean;
-  metas?: Meta[];
+  metas: Meta; 
 }

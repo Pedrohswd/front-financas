@@ -12,15 +12,15 @@ export class MetaService {
   constructor(private http: HttpClient) { }
 
   create(meta: Meta): Observable<Meta> {
-    return this.http.post<Meta>(this.apiUrl, meta);
+    return this.http.post<Meta>(this.apiUrl + '/criar', meta);
   }
 
   readAll(): Observable<Meta[]> {
     return this.http.get<Meta[]>(this.apiUrl);
   }
 
-  update(id: number, updatedMeta: Meta): Observable<Meta> {
-    return this.http.put<Meta>(`${this.apiUrl}/${id}`, updatedMeta);
+  update(updatedMeta: Meta): Observable<Meta> {
+    return this.http.put<Meta>(`${this.apiUrl}`, updatedMeta);
   }
 
   delete(id: number): Observable<void> {

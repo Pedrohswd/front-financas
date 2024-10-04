@@ -1,48 +1,43 @@
-<div>
-  <h2>Gerenciar Metas</h2>
-  <form [formGroup]="metaForm" (ngSubmit)="editingMeta ? updateMeta() : addMeta()">
+<div class="p-fluid">
+  <h2 class="p-mb-3">Gerenciar Metas</h2>
+  <form [formGroup]="metaForm" (ngSubmit)="editingMeta ? updateMeta() : addMeta()" class="p-shadow-2 p-p-3 p-mb-4">
     <div class="p-field">
-      <label for="tipo">Tipo</label>
-      <input id="tipo" pInputText formControlName="tipo" required />
+      <label for="descricao">Descrição</label>
+      <input id="descricao" type="text" pInputText formControlName="descricao" required />
     </div>
+
     <div class="p-field">
       <label for="valorObjetivo">Valor Objetivo</label>
       <input id="valorObjetivo" type="number" pInputText formControlName="valorObjetivo" required />
     </div>
+
     <div class="p-field">
       <label for="valorAtual">Valor Atual</label>
       <input id="valorAtual" type="number" pInputText formControlName="valorAtual" required />
     </div>
+
     <div class="p-field">
-      <label for="categoria">Categoria</label>
-      <input id="categoria" pInputText formControlName="categoria" required />
+      <p-button type="submit" label="{{ editingMeta ? 'Atualizar Meta' : 'Adicionar Meta' }}" [disabled]="metaForm.invalid" class="p-button-success"></p-button>
     </div>
-    <div class="p-field">
-      <label for="grupo">Grupo</label>
-      <p-dropdown [options]="grupos" formControlName="grupo" optionLabel="nome" placeholder="Selecione um grupo" required></p-dropdown>
-    </div>
-    <button pButton type="submit" label="{{ editingMeta ? 'Atualizar Meta' : 'Adicionar Meta' }}"></button>
   </form>
 
-  <p-table [value]="metas">
+  <p-table [value]="metas" class="p-shadow-2">
     <ng-template pTemplate="header">
       <tr>
-        <th>Tipo</th>
+        <th>Descrição</th>
         <th>Valor Objetivo</th>
         <th>Valor Atual</th>
-        <th>Categoria</th>
         <th>Ações</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-meta>
       <tr>
-        <td>{{ meta.tipo }}</td>
+        <td>{{ meta.descricao }}</td>
         <td>{{ meta.valorObjetivo }}</td>
         <td>{{ meta.valorAtual }}</td>
-        <td>{{ meta.categoria }}</td>
         <td>
-          <button pButton icon="pi pi-pencil" (click)="editMeta(meta)" label="Editar"></button>
-          <button pButton icon="pi pi-trash" (click)="deleteMeta(meta.id)" label="Deletar"></button>
+          <button pButton icon="pi pi-pencil" (click)="editMeta(meta)" label="Editar" class="p-button-warning"></button>
+          <button pButton icon="pi pi-trash" (click)="deleteMeta(meta.id)" label="Deletar" class="p-button-danger"></button>
         </td>
       </tr>
     </ng-template>

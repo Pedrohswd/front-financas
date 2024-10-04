@@ -24,7 +24,7 @@ export class PessoaService {
   }
 
   updatePessoa(id: number, pessoa: Pessoa): Observable<Pessoa> {
-    return this.http.put<Pessoa>(`${this.apiUrl}/${id}`, pessoa);
+    return this.http.put<Pessoa>(`${this.apiUrl}/atualizar/${id}`, pessoa);
   }
 
   deletePessoa(id: number): Observable<void> {

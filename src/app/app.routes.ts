@@ -6,8 +6,7 @@ import { GrupoComponent } from './components/grupo/grupo.component';
 import { LancamentoComponent } from './components/lancamento/lancamento.component';
 
 export const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
+  {path: '', redirectTo: '/pessoas', pathMatch: 'full'},
   {path: 'pessoas', component: PessoaComponent},
   {path: 'meta', component: MetaComponent},
   {path: 'grupo', component: GrupoComponent},

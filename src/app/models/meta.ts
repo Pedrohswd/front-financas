@@ -2,25 +2,22 @@ import { Grupo } from "./grupo";
 
 export class Meta {
   id?: number;
-  tipo: string;
+  descricao: string;
   valorObjetivo: number;
   valorAtual: number;
   grupo: Grupo;
-  categoria: string;
 
   constructor(
-    tipo: string,
+    descricao: string,
     valorObjetivo: number,
     valorAtual: number,
     grupo: Grupo,
-    categoria: string,
     id?: number
   ) {
     this.id = id;
-    this.tipo = tipo;
+    this.descricao = descricao;
     this.valorObjetivo = valorObjetivo;
     this.valorAtual = valorAtual;
     this.grupo = grupo;
-    this.categoria = categoria;
   }
 }
