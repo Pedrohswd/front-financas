@@ -1,0 +1,39 @@
+<div>
+  <h2>Consulta de Lançamentos</h2>
+  <div class="filters">
+    <p-dropdown [options]="categorias" [(ngModel)]="selectedCategoria" (onChange)="filterLancamentos()" placeholder="Filtrar por Categoria"></p-dropdown>
+    <p-dropdown [options]="tipos" [(ngModel)]="selectedTipo" (onChange)="filterLancamentos()" placeholder="Filtrar por Tipo"></p-dropdown>
+    <p-dropdown [options]="grupos" [(ngModel)]="selectedGrupo" optionLabel="nome" (onChange)="filterLancamentos()" placeholder="Filtrar por Grupo"></p-dropdown>
+  </div>
+
+  <p-table [value]="filteredLancamentos">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Data</th>
+        <th>Tipo</th>
+        <th>Valor</th>
+        <th>Categoria</th>
+        <th>Grupo</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-lancamento>
+      <tr>
+        <td>{{ lancamento.nome }}</td>
+        <td>{{ lancamento.descricao }}</td>
+        <td>{{ lancamento.data }}</td>
+        <td>{{ lancamento.tipo }}</td>
+        <td>{{ lancamento.valor }}</td>
+        <td>{{ lancamento.categoria }}</td>
+        <td>{{ lancamento.grupo.nome }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <tr>
+        <td colspan="4"><strong>Meta:</strong> {{ meta }}</td>
+        <td colspan="3"><strong>Somatório:</strong> {{ calcularSomatorio() }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
